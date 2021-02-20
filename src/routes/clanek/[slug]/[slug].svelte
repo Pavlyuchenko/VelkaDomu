@@ -59,8 +59,6 @@
 
 	$: changeLogin = $segment$;
 
-	$: console.log(changeLogin);
-
 	onMount(() => {
 		statsIncrease();
 		getAnketa();
@@ -191,7 +189,6 @@
 	<meta name="description" content={clanek.podnadpis} />
 	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8">
 	</script>
-	<title>VelkáDomů.cz - Sjednocujeme fotbalové fanoušky</title>
 
 	<meta property="og:title" content={clanek.titulek} />
 	<meta property="og:description" content={clanek.podnadpis} />
