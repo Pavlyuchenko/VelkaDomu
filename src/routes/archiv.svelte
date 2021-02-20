@@ -332,21 +332,20 @@
 	<section id="vsechny-clanky">
 		{#if clanky}
 			{#each clanky as clanek, i}
-				<article
-					on:click={goto(
-						"/clanek/" +
-							clanek.titulek
-								.replace(/\s+/g, "-")
-								.replace(".", "")
-								.replace(",", "")
-								.replace('"', "")
-								.replace("'", "")
-								.replace(":", "")
-								.replace("?", "")
-								.toLowerCase() +
-							"/" +
-							clanek.id
-					)}
+				<a
+					rel="prefetch"
+					href={"/clanek/" +
+						clanek.titulek
+							.replace(/\s+/g, "-")
+							.replace(".", "")
+							.replace(",", "")
+							.replace('"', "")
+							.replace("'", "")
+							.replace(":", "")
+							.replace("?", "")
+							.toLowerCase() +
+						"/" +
+						clanek.id}
 				>
 					<div id="image-wrapper">
 						<img
@@ -390,7 +389,7 @@
 						datetime="2015-11-30T12:00:00Z"
 						id="datum">{clanek.datum}</span
 					>
-				</article>
+				</a>
 			{/each}
 			<div class="fill" />
 			<div class="fill" />
@@ -709,7 +708,7 @@
 		margin-top: 40px;
 	}
 
-	article {
+	a {
 		width: 23%;
 		margin-bottom: 60px;
 		position: relative;
@@ -722,14 +721,14 @@
 		border-radius: 5px;
 		height: 200px;
 	}
-	article:hover .image {
+	a:hover .image {
 		transform: scale(1.075);
 	}
 	h2:hover {
 		text-decoration: underline;
 	}
 
-	article img {
+	a img {
 		width: 100%;
 		height: 200px;
 		object-fit: cover;
@@ -776,7 +775,7 @@
 		height: 0;
 	}
 	@media (max-width: 1400px) {
-		article {
+		a {
 			width: 32%;
 		}
 		.fill {
@@ -784,7 +783,7 @@
 		}
 	}
 	@media (max-width: 900px) {
-		article {
+		a {
 			width: 48%;
 		}
 		.fill {
@@ -800,10 +799,10 @@
 		section {
 			flex-direction: column;
 		}
-		article {
+		a {
 			width: 100%;
 		}
-		article img {
+		a img {
 			height: 15%;
 		}
 		#image-wrapper {
