@@ -193,7 +193,6 @@
 	<meta property="og:title" content={clanek.titulek} />
 	<meta property="og:description" content={clanek.podnadpis} />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://velkadomu.cz" />
 	<meta property="fb:app_id" content="711492256235520" />
 	<meta
 		property="og:image"
