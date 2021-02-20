@@ -102,7 +102,7 @@
 									(e) => parseInt(e.den) === dny[i + j * 7]
 								)[0].showDetails = true;
 								zapasy[0] = zapasy[0];
-								console.log(zapasy);
+								zapasy;
 							}}
 							class="calendar-day matchday"
 							style={"background-color: " +

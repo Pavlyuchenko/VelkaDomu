@@ -308,7 +308,6 @@
 							selected = 5;
 							mezinarodniObj.text = "Reprezentace";
 							mezinarodniObj.color = "#EB1A2A";
-							console.log(mezinarodniObj);
 							mezinarodniObj = mezinarodniObj;
 						}}
 					>

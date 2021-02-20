@@ -204,37 +204,60 @@
 <article>
 	<h1 class="clanek-titulek">{clanek.titulek}</h1>
 	<div id="clanek-info">
-		{#if clanek.logo == "VelkaDomu"}
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 54 53"
-				fill="none"
-			>
-				<path
-					d="M21.7099 1.84346C24.8643 -0.448336 29.1357 -0.448337 32.2901 1.84346L50.2416 14.886C53.396 17.1778 54.7159 21.2401 53.5111 24.9483L46.6542 46.0517C45.4493 49.7599 41.9937 52.2705 38.0947 52.2705H15.9053C12.0063 52.2705 8.55068 49.7599 7.34582 46.0517L0.48893 24.9483C-0.715938 21.2401 0.603984 17.1778 3.75837 14.886L21.7099 1.84346Z"
-					fill="#FF8A00"
-				/></svg
-			>
-		{:else}
-			<img
-				src={"https://ik.imagekit.io/velkadomu/tr:h-50,w-50" +
-					clanek.logo}
-				alt="Logo jiného portálu"
-				width="42"
-				height="42"
-				class="logo"
-			/>
-		{/if}
+		<div id="autor-info">
+			{#if clanek.logo == "VelkaDomu"}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 54 53"
+					fill="none"
+				>
+					<path
+						d="M21.7099 1.84346C24.8643 -0.448336 29.1357 -0.448337 32.2901 1.84346L50.2416 14.886C53.396 17.1778 54.7159 21.2401 53.5111 24.9483L46.6542 46.0517C45.4493 49.7599 41.9937 52.2705 38.0947 52.2705H15.9053C12.0063 52.2705 8.55068 49.7599 7.34582 46.0517L0.48893 24.9483C-0.715938 21.2401 0.603984 17.1778 3.75837 14.886L21.7099 1.84346Z"
+						fill="#FF8A00"
+					/></svg
+				>
+			{:else}
+				<img
+					src={"https://ik.imagekit.io/velkadomu/tr:h-50,w-50" +
+						clanek.logo}
+					alt="Logo jiného portálu"
+					width="42"
+					height="42"
+					class="logo"
+				/>
+			{/if}
 
-		<div id="clanek-info-text">
+			<div id="clanek-info-text">
+				<a
+					rel="prefetch"
+					href={"/autor/" +
+						clanek.autor.replace(" ", "-").replace(".", "|")}
+				>
+					<span id="clanek-autor">{clanek.autor}</span>
+				</a>
+				<span>{clanek.datum}</span>
+			</div>
+		</div>
+
+		<div id="share">
 			<a
-				rel="prefetch"
-				href={"/autor/" +
-					clanek.autor.replace(" ", "-").replace(".", "|")}
+				class="share-btn"
+				href="https://www.facebook.com/sharer/sharer.php?app_id=711492256235520&sdk=joey&u=https://velkadomu.cz/clanek/nyní-je-pravý-čas-porazit-liverpool-hlásí-před-merseyside-derby-carlo-ancelotti/12&display=popup&ref=plugin&src=share_button"
+				onclick="return !window.open(this.href, 'Facebook', 'width=640,height=580')"
+				style="margin-right: 5px;"
 			>
-				<span id="clanek-autor">{clanek.autor}</span>
+				<img
+					src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/facebook-512.png"
+					alt="Facebook logo"
+				/>
 			</a>
-			<span>{clanek.datum}</span>
+			<!-- <a href="http://twitter.com/share?related=[your_twitter_account]&via=[your_twitter_account]&lang=[fr]&text=[hello%20world]&url=[www.google.com]">tweet</a>
+
+				<img
+					src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
+					alt="Twitter logo"
+				/>
+			</a> -->
 		</div>
 	</div>
 
@@ -651,6 +674,20 @@
 	}
 	#clanek-info {
 		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	#autor-info {
+		display: flex;
+	}
+	#share {
+		vertical-align: middle;
+		display: inline-block;
+	}
+	#share img {
+		width: 25px;
+		vertical-align: middle;
+		display: inline-block;
 	}
 
 	svg {

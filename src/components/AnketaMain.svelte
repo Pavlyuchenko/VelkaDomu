@@ -6,8 +6,6 @@
 
 	$: changeLogin = $segment$;
 
-	$: console.log(changeLogin);
-
 	export let nazevAnkety;
 	export let hodnotyAnkety;
 	export let userChosen;

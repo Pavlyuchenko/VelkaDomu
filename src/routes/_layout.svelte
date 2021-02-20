@@ -103,7 +103,6 @@
 		});
 
 		if (res.status == 200) {
-			console.log(res.status);
 			const json = await res.json();
 
 			localStorage.user_cookie = json.user_cookie;
