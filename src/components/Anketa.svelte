@@ -1,13 +1,18 @@
 <script>
 	import Nadpis from "./Nadpis.svelte";
 	import { isAuthenticated, cookie, prezdivka } from "../store";
+	import { getContext } from "svelte";
+
+	const segment$ = getContext("segment");
+
+	$: changeLogin = $segment$;
+
+	$: console.log(changeLogin);
 
 	export let nazevAnkety;
 	export let hodnotyAnkety;
-	export let login;
 	export let userChosen;
 	export let votes;
-
 	export let showAnketaResults;
 
 	function chooseBod(bod) {
@@ -74,7 +79,7 @@
 							}
 							chooseBod(bod);
 						} else {
-							login.changeLogin();
+							changeLogin();
 						}
 					}}
 				>
@@ -116,7 +121,7 @@
 								);
 							}
 						} else {
-							login.changeLogin();
+							changeLogin();
 						}
 					}}
 				>

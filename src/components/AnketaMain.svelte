@@ -1,14 +1,20 @@
 <script>
 	import { isAuthenticated, cookie, prezdivka } from "../store";
+	import { getContext } from "svelte";
+
+	const segment$ = getContext("segment");
+
+	$: changeLogin = $segment$;
+
+	$: console.log(changeLogin);
 
 	export let nazevAnkety;
 	export let hodnotyAnkety;
-	export let login;
 	export let userChosen;
 	export let votes;
 	export let showAnketaResults;
+	export let clanekTitulek;
 	export let clanekId;
-	console.log(clanekId);
 
 	function chooseBod(bod) {
 		fetch("https://velkadomu.pythonanywhere.com/vote_anketa", {
@@ -54,7 +60,21 @@
 <div id="anketa">
 	{#if nazevAnkety}
 		<div id="anketa-wrapper">
-			<a href={"/clanek/" + clanekId}><h4>{nazevAnkety}</h4></a>
+			<a
+				rel="prefetch"
+				href={"/clanek/" +
+					clanekTitulek
+						.replace(/\s+/g, "-")
+						.replace(".", "")
+						.replace(",", "")
+						.replace('"', "")
+						.replace("'", "")
+						.replace(":", "")
+						.replace("?", "")
+						.toLowerCase() +
+					"/" +
+					clanekId}><h4>{nazevAnkety}</h4></a
+			>
 			{#each hodnotyAnkety as bod}
 				<div
 					class="anketa-bod"
@@ -73,7 +93,7 @@
 							}
 							chooseBod(bod);
 						} else {
-							login.changeLogin();
+							changeLogin();
 						}
 					}}
 				>
@@ -115,7 +135,7 @@
 								);
 							}
 						} else {
-							login.changeLogin();
+							changeLogin();
 						}
 					}}
 				>

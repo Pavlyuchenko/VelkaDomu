@@ -1,28 +1,9 @@
 <script context="module">
-	export async function preload(page) {
-		var slug = page.path.split("/");
-		slug = slug.slice(1);
-		var id = slug[2];
-
-		let cookieStorage = ""; /* localStorage.getItem("user_cookie"); */
-		let prezdivkaStorage = ""; /* localStorage.getItem("prezdivka"); */
-		console.log(id);
+	export async function preload({ params }) {
 		const res = await this.fetch(
-			"https://velkadomu.pythonanywhere.com/clanek/" + id,
-			{
-				method: "POST",
-				headers: {
-					"content-type": "application/json",
-				},
-				body: JSON.stringify({
-					/* prezdivka: prezdivkaStorage,
-					cookie: cookieStorage, */
-				}),
-			}
+			"https://velkadomu.pythonanywhere.com/clanek/" + params.slug
 		);
-		console.log("json");
 		const json = await res.json();
-		console.log(json);
 		let clanek = json.clanek;
 
 		let komentare = json.komentare;
@@ -31,7 +12,7 @@
 		let url =
 			"https://ik.imagekit.io/velkadomu/tr:h-500,w-900" + clanek.obrazek;
 
-		/* let jsonld = {
+		let jsonld = {
 			"@context": "https://schema.org",
 			"@type": "NewsArticle",
 			headline: clanek.titulek,
@@ -41,22 +22,17 @@
 			],
 			datePublished: clanek.datePublished,
 		};
-		let jsonld = JSON.stringify(jsonld);
+		jsonld = JSON.stringify(jsonld);
 		let jsonldScript = `<script type="application/ld+json">${
 			jsonld + "<"
-		}/script>`; */
+		}/script>`;
 
 		let nazevAnkety = clanek.nazevAnkety;
 		let votes = clanek.votes;
 		let hodnotyAnkety = clanek.hodnotyAnkety;
 
-		let userChosen = json.user_chosen;
+		let id = params.slug;
 
-		let showAnketaResults;
-		if (userChosen) {
-			showAnketaResults = true;
-		}
-		/* statsIncrease(); */
 		return {
 			clanek,
 			komentare,
@@ -65,60 +41,55 @@
 			nazevAnkety,
 			votes,
 			hodnotyAnkety,
-			userChosen,
-			showAnketaResults,
+			id,
+			jsonldScript,
 		};
 	}
 </script>
 
 <script>
 	import Nadpis from "../../../components/Nadpis.svelte";
-	import { goto } from "@sapper/app";
 	import Anketa from "../../../components/Anketa.svelte";
 	import { onMount, afterUpdate } from "svelte";
 	import { isAuthenticated, cookie, prezdivka } from "../../../store";
 	import { fly } from "svelte/transition";
+	import { getContext } from "svelte";
 
-	/* export let id;
-	    export let titulek;
-    */
-	onMount(() => {});
+	const segment$ = getContext("segment");
 
-	/* let oldId = id; */
+	$: changeLogin = $segment$;
 
-	/* afterUpdate(() => {
-		if (oldId != id) {
-			getClanek();
-			oldId = id;
+	$: console.log(changeLogin);
+
+	onMount(() => {
+		statsIncrease();
+		getAnketa();
+	});
+
+	async function getAnketa() {
+		let cookieStorage = localStorage.getItem("user_cookie");
+		let prezdivkaStorage = localStorage.getItem("prezdivka");
+		const res = await fetch(
+			"https://velkadomu.pythonanywhere.com/clanek/" + id,
+			{
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+				},
+				body: JSON.stringify({
+					prezdivka: prezdivkaStorage,
+					cookie: cookieStorage,
+				}),
+			}
+		);
+		const json = await res.json();
+
+		userChosen = json.user_chosen;
+
+		if (userChosen) {
+			showAnketaResults = true;
 		}
-	}); */
-
-	/* let clanek = {
-		autor: "Načítání",
-		body: "Načítání",
-		datum: "Načítání",
-		autor: "Načítání",
-		stitky: ["Načítání"],
-		podnadpis: "Načítání",
-		titulek: "Načítání",
-		logo: "VelkaDomu",
-	};
-	$: url =
-		"https://ik.imagekit.io/velkadomu/tr:h-500,w-900/placeholder_OBwhc9BIH2pIr.png";
-
-	let jsonld = "";
-	let jsonldScript;
-
-	let nazevAnkety = "";
-	let votes = "";
-	let hodnotyAnkety = "";
-
-	let userChosen;
-
-	let cookieStorage = "";
-	let prezdivkaStorage = "";
-
-	let dalsiClanky = []; */
+	}
 
 	export let clanek;
 	export let komentare;
@@ -127,10 +98,13 @@
 	export let nazevAnkety;
 	export let votes;
 	export let hodnotyAnkety;
-	export let userChosen;
-	export let showAnketaResults;
+	export let id;
+	export let jsonldScript;
 
-	/* async function statsIncrease() {
+	let userChosen;
+	let showAnketaResults;
+
+	async function statsIncrease() {
 		let idStorage = localStorage.getItem(clanek.id);
 
 		if (idStorage == null) {
@@ -139,45 +113,7 @@
 			);
 			localStorage.setItem(clanek.id, "viewed");
 		}
-	} */
-
-	/* let showAnketaResults = false; */
-	/* export let login; */
-
-	/* let komentare = []; */
-	/* let komentare = [
-		{
-			text: "Je to good",
-			autor: "Tonda",
-			datum: "12:00",
-			odpovedi: [
-				{
-					text: "Máš pravdu kámo",
-					autor: "Zepel",
-					datum: "12:05",
-				},
-				{ text: "Jste retardovaní", autor: "Mahmud", datum: "12:07" },
-			],
-			showNovaOdpoved: false,
-			novaOdpoved: "",
-		},
-		{
-			text: "Podle mě Muller",
-			autor: "Alfons",
-			datum: "6. 1.",
-			odpovedi: [],
-			showNovaOdpoved: false,
-			novaOdpoved: "",
-		},
-		{
-			text: "Ať jde do řitě, borec",
-			autor: "Franta",
-			datum: "5. 1.",
-			odpovedi: [],
-			showNovaOdpoved: false,
-			novaOdpoved: "",
-		},
-	]; */
+	}
 	let novyKomentar = "";
 
 	function pridatKomentar() {
@@ -247,14 +183,26 @@
 		}
 		window.open(clanek.popisek, "_blank");
 	}
-
-	function login() {}
 </script>
 
 <svelte:head>
-	<!-- {@html jsonldScript} -->
+	{@html jsonldScript}
 	<title>{clanek.titulek}</title>
 	<meta name="description" content={clanek.podnadpis} />
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8">
+	</script>
+	<title>VelkáDomů.cz - Sjednocujeme fotbalové fanoušky</title>
+
+	<meta property="og:title" content={clanek.titulek} />
+	<meta property="og:description" content={clanek.podnadpis} />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://velkadomu.cz" />
+	<meta property="fb:app_id" content="711492256235520" />
+	<meta
+		property="og:image"
+		content={"https://ik.imagekit.io/velkadomu/tr:h-500,w-900" +
+			clanek.obrazek}
+	/>
 </svelte:head>
 
 <article>
@@ -284,6 +232,7 @@
 
 		<div id="clanek-info-text">
 			<a
+				rel="prefetch"
 				href={"/autor/" +
 					clanek.autor.replace(" ", "-").replace(".", "|")}
 			>
@@ -314,18 +263,10 @@
 		>
 	{/if}
 
-	{#if clanek.titulek != "Načítání"}
-		<script
-			async
-			src="https://platform.twitter.com/widgets.js"
-			charset="utf-8">
-		</script>
-	{/if}
-
 	<!-- {@html clanek.dalsiStitky} -->
 	<div class="clanek-stitky">
 		{#each clanek.stitky as stitek, color}
-			<a href="/archiv">
+			<a href="/archiv" rel="prefetch">
 				<div class="clanek-stitek">
 					<span style={"color: " + stitek[1]}>{stitek[0]}</span>
 				</div>
@@ -336,7 +277,6 @@
 	<Anketa
 		{nazevAnkety}
 		{hodnotyAnkety}
-		{login}
 		{userChosen}
 		{votes}
 		{showAnketaResults}
@@ -454,7 +394,7 @@
 	<button
 		id="pridat-komentar"
 		on:click={() => {
-			$isAuthenticated ? pridatKomentar() : login.changeLogin();
+			$isAuthenticated ? pridatKomentar() : changeLogin();
 		}}>Přidat</button
 	>
 	<!-- {:else}
@@ -468,7 +408,20 @@
 		<Nadpis text="Další články" />
 		<div id="dalsi-clanky-wrapper">
 			{#each dalsiClanky as dalsiClanek, index}
-				<div
+				<a
+					rel="prefetch"
+					href={"/clanek/" +
+						dalsiClanek.titulek
+							.replace(/\s+/g, "-")
+							.replace(".", "")
+							.replace(",", "")
+							.replace('"', "")
+							.replace("'", "")
+							.replace(":", "")
+							.replace("?", "")
+							.toLowerCase() +
+						"/" +
+						dalsiClanek.id}
 					class="dalsi-clanek"
 					on:click={() => {
 						clanek = {
@@ -483,20 +436,6 @@
 						url =
 							"https://ik.imagekit.io/velkadomu/tr:h-500,w-900/placeholder_OBwhc9BIH2pIr.png";
 						id = dalsiClanek.id;
-						goto(
-							"/clanek/" +
-								dalsiClanek.titulek
-									.replace(/\s+/g, "-")
-									.replace(".", "")
-									.replace(",", "")
-									.replace('"', "")
-									.replace("'", "")
-									.replace(":", "")
-									.replace("?", "")
-									.toLowerCase() +
-								"/" +
-								dalsiClanek.id
-						);
 					}}
 					on:mouseenter={() => {
 						let els = document.getElementsByClassName("overlay");
@@ -529,7 +468,7 @@
 						class="dalsi-clanek-obrazek"
 					/>
 					<p class="titulek-dalsi-clanek">{dalsiClanek.titulek}</p>
-				</div>
+				</a>
 			{/each}
 			<div class="blank" />
 			<div class="blank" />

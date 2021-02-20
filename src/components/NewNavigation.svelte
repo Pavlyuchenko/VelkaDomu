@@ -287,7 +287,7 @@
 			<a href="/" rel="prefetch"><span>Domů</span></a>
 		</div>
 		<div>
-			<a href="/kalendar"><span>Kalendář</span></a>
+			<a href="/kalendar" rel="prefetch"><span>Kalendář</span></a>
 		</div>
 		<div>
 			<a href="/o-nas"><span>O nás</span></a>
@@ -644,7 +644,7 @@
 			"left: 50%; transform: translateX(-50%);bottom: 60px; animation: .3s appear;"}
 	>
 		<div>
-			<a href="/kalendar">
+			<a href="/kalendar" rel="prefetch">
 				<span
 					id="nav-text-1"
 					on:click={() => {

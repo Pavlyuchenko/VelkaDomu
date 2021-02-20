@@ -16,7 +16,6 @@
 </script>
 
 <a
-	rel="prefetch"
 	href={"/clanek/" +
 		titulek
 			.replace(/\s+/g, "-")
@@ -29,6 +28,7 @@
 			.toLowerCase() +
 		"/" +
 		id}
+	rel="prefetch"
 >
 	<article
 		in:fly={{ x: -300, duration: 500 }}

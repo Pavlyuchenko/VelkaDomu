@@ -85,8 +85,9 @@
 	let mql;
 	let max;
 	let min;
+	let width;
 	onMount(() => {
-		/* dny = createDays(); */
+		createDays();
 		mql = window.matchMedia("(max-width: 680px)");
 		max = window.matchMedia("(max-width: 1400px)").matches;
 		min = window.matchMedia("(min-width: 900px)").matches;
@@ -98,17 +99,16 @@
 			min = window.matchMedia("(min-width: 900px)").matches;
 			mobileView = mql.matches;
 
-			let width;
-			width = document.getElementsByClassName("kalendar-day")[0]
-				.offsetWidth;
+			if (!mobileView) {
+				width = document.getElementsByClassName("kalendar-day")[0]
+					.offsetWidth;
 
-			kalendarDayHeight = width;
+				kalendarDayHeight = width;
+			}
 		};
 	});
 
 	let kalendarDayHeight;
-
-	export let login;
 
 	function getPreviousMonday() {
 		var date = new Date();
@@ -124,7 +124,6 @@
 	}
 
 	function createDays() {
-		let dny;
 		let currentDay = getPreviousMonday();
 		for (let i = 0; i < 7; i++) {
 			dny.push(currentDay.getDate());
@@ -133,7 +132,6 @@
 		}
 		dny = dny;
 
-		let width;
 		width = document.getElementsByClassName("kalendar-day")[0].offsetWidth;
 
 		kalendarDayHeight = width;
@@ -209,130 +207,142 @@
 					</div>
 				</div>
 				<div id="kalendar">
-					<!-- {#each range(7) as i}
-						{#if zapasy.filter((e) => parseInt(e.den) === dny[i])[0]}
-							<div
-								class="kalendar-day"
-								id={"kalendar-day" + i}
-								style={zapasy.filter(
-									(e) => parseInt(e.den) === dny[i]
-								)[0].liga.color != "#CEFB0A"
-									? "background-color: " +
-									  zapasy.filter(
-											(e) => parseInt(e.den) === dny[i]
-									  )[0].liga.color +
-									  "; height: " +
-									  kalendarDayHeight +
-									  "px; " +
-									  "color: #ffffff;"
-									: "background-color: " +
-									  zapasy.filter(
-											(e) => parseInt(e.den) === dny[i]
-									  )[0].liga.color +
-									  "; height: " +
-									  kalendarDayHeight +
-									  "px; "}
-							>
-								{dny[i]}
+					{#if zapasy}
+						{#each range(7) as i}
+							{#if zapasy.filter((e) => parseInt(e.den) === dny[i])[0]}
 								<div
-									class="kalendar-day-hidden"
-									style={"background-color: " +
-										zapasy.filter(
-											(e) => parseInt(e.den) === dny[i]
-										)[0].liga.color}
+									class="kalendar-day"
+									id={"kalendar-day" + i}
+									style={zapasy.filter(
+										(e) => parseInt(e.den) === dny[i]
+									)[0].liga.color != "#CEFB0A"
+										? "background-color: " +
+										  zapasy.filter(
+												(e) =>
+													parseInt(e.den) === dny[i]
+										  )[0].liga.color +
+										  "; height: " +
+										  kalendarDayHeight +
+										  "px; " +
+										  "color: #ffffff;"
+										: "background-color: " +
+										  zapasy.filter(
+												(e) =>
+													parseInt(e.den) === dny[i]
+										  )[0].liga.color +
+										  "; height: " +
+										  kalendarDayHeight +
+										  "px; "}
 								>
-									<div class="kalendar-logos">
-										<img
-											src={"https://ik.imagekit.io/velkadomu/tr:h-70,w-70" +
-												zapasy.filter(
+									{dny[i]}
+									<div
+										class="kalendar-day-hidden"
+										style={"background-color: " +
+											zapasy.filter(
+												(e) =>
+													parseInt(e.den) === dny[i]
+											)[0].liga.color}
+									>
+										<div class="kalendar-logos">
+											<img
+												src={"https://ik.imagekit.io/velkadomu/tr:h-70,w-70" +
+													zapasy.filter(
+														(e) =>
+															parseInt(e.den) ===
+															dny[i]
+													)[0].domaci.logo}
+												alt="Domácí"
+												style="margin-right: 15px;"
+											/>
+											<img
+												src={"https://ik.imagekit.io/velkadomu/tr:h-70,w-70" +
+													zapasy.filter(
+														(e) =>
+															parseInt(e.den) ===
+															dny[i]
+													)[0].hoste.logo}
+												alt="Hosté"
+											/>
+										</div>
+										<div class="kalendar-nazvy-tymu">
+											<span
+												>{zapasy.filter(
 													(e) =>
 														parseInt(e.den) ===
 														dny[i]
-												)[0].domaci.logo}
-											alt="Domácí"
-											style="margin-right: 15px;"
-										/>
-										<img
-											src={"https://ik.imagekit.io/velkadomu/tr:h-70,w-70" +
-												zapasy.filter(
+												)[0].domaci.nazev}</span
+											><span
+												>{zapasy.filter(
 													(e) =>
 														parseInt(e.den) ===
 														dny[i]
-												)[0].hoste.logo}
-											alt="Hosté"
-										/>
-									</div>
-									<div class="kalendar-nazvy-tymu">
-										<span
-											>{zapasy.filter(
+												)[0].hoste.nazev}</span
+											>
+										</div>
+										<p class="kalendar-day-cas">
+											{zapasy.filter(
 												(e) =>
 													parseInt(e.den) === dny[i]
-											)[0].domaci.nazev}</span
-										><span
-											>{zapasy.filter(
-												(e) =>
-													parseInt(e.den) === dny[i]
-											)[0].hoste.nazev}</span
-										>
+											)[0].cas}
+										</p>
 									</div>
-									<p class="kalendar-day-cas">
-										{zapasy.filter(
-											(e) => parseInt(e.den) === dny[i]
-										)[0].cas}
-									</p>
+									<span class="kalendar-day-nazev"
+										>{i == 0
+											? "Po"
+											: i == 1
+											? "Út"
+											: i == 2
+											? "St"
+											: i == 3
+											? "Čt"
+											: i == 4
+											? "Pá"
+											: i == 5
+											? "So"
+											: "Ne"}</span
+									>
 								</div>
-								<span class="kalendar-day-nazev"
-									>{i == 0
-										? "Po"
-										: i == 1
-										? "Út"
-										: i == 2
-										? "St"
-										: i == 3
-										? "Čt"
-										: i == 4
-										? "Pá"
-										: i == 5
-										? "So"
-										: "Ne"}</span
+							{:else}
+								<div
+									class="kalendar-day"
+									id={"kalendar-day" + i}
+									style={"height: " +
+										kalendarDayHeight +
+										"px;"}
 								>
-							</div>
-						{:else}
-							<div
-								class="kalendar-day"
-								id={"kalendar-day" + i}
-								style={"height: " + kalendarDayHeight + "px;"}
-							>
-								{dny[i]}
-								<span class="kalendar-day-nazev"
-									>{i == 0
-										? "Po"
-										: i == 1
-										? "Út"
-										: i == 2
-										? "St"
-										: i == 3
-										? "Čt"
-										: i == 4
-										? "Pá"
-										: i == 5
-										? "So"
-										: "Ne"}</span
-								>
-							</div>
-						{/if}
-					{/each} -->
+									{dny[i]}
+									<span class="kalendar-day-nazev"
+										>{i == 0
+											? "Po"
+											: i == 1
+											? "Út"
+											: i == 2
+											? "St"
+											: i == 3
+											? "Čt"
+											: i == 4
+											? "Pá"
+											: i == 5
+											? "So"
+											: "Ne"}</span
+									>
+								</div>
+							{/if}
+						{/each}
+					{/if}
 					<div
 						id="kalendar-link"
 						style={"top: " + kalendarDayHeight * 1.8 + "px;"}
 					>
-						<a href="/kalendar">Zobrazit celý kalendář</a>
+						<a href="/kalendar" rel="prefetch"
+							>Zobrazit celý kalendář</a
+						>
 					</div>
 				</div>
 			</div>
 		</section>
 		<hr />
-		<VsechnyClanky {clanky} {min} {max} {ankety} {login} {userChosen} />
+		<VsechnyClanky {clanky} {min} {max} {ankety} {userChosen} />
 	</div>
 {:else}
 	<main>
