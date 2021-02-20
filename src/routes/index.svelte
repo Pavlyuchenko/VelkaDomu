@@ -79,7 +79,17 @@
 	export let ankety;
 	export let userChosen;
 
-	$: mobileView = false;
+	import { stores } from "@sapper/app";
+	import UAParser from "ua-parser-js";
+
+	// session is passed in server.js
+	const { session } = stores();
+	var parser = new UAParser();
+	parser.setUA($session["user-agent"]);
+
+	let mobileView = parser.getResult().device["type"] == "mobile";
+
+	// $: mobileView = false;
 
 	let dny = [];
 	let mql;
@@ -87,11 +97,14 @@
 	let min;
 	let width;
 	onMount(() => {
-		createDays();
 		mql = window.matchMedia("(max-width: 680px)");
+		// mobileView = mql.matches;
 		max = window.matchMedia("(max-width: 1400px)").matches;
 		min = window.matchMedia("(min-width: 900px)").matches;
-		mobileView = mql.matches;
+
+		if (!mobileView) {
+			createDays();
+		}
 
 		window.onresize = function () {
 			mql = window.matchMedia("(max-width: 680px)");
