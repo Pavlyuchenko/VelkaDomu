@@ -344,7 +344,7 @@
 					</div>
 					<div id="ankety-div">
 						{#each ankety as anketa, j}
-							{#if userChosen[j] != null}
+							{#if userChosen && userChosen[j] != null}
 								<Anketa
 									nazevAnkety={anketa.nazevAnkety}
 									hodnotyAnkety={anketa.hodnotyAnkety}
@@ -353,11 +353,12 @@
 									showAnketaResults={true}
 									clanekId={anketa.clanek}
 									clanekTitulek={clanek.titulek}
-								/>{:else}
+								/>
+							{:else}
 								<Anketa
 									nazevAnkety={anketa.nazevAnkety}
 									hodnotyAnkety={anketa.hodnotyAnkety}
-									userChosen={userChosen[j]}
+									userChosen={false}
 									votes={anketa.votes}
 									showAnketaResults={false}
 									clanekId={anketa.clanek}

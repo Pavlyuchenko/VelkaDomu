@@ -1,6 +1,5 @@
 <script context="module">
 	export async function preload() {
-		let prezdivkaStorage = "asd"; /* localStorage.getItem("prezdivka"); */
 		const res = await this.fetch(
 			"https://velkadomu.pythonanywhere.com/main-desktop",
 			{
@@ -9,7 +8,7 @@
 					"content-type": "application/json",
 				},
 				body: JSON.stringify({
-					prezdivka: prezdivkaStorage,
+					prezdivka: "prezdivkaStorage",
 				}),
 			}
 		);
@@ -77,7 +76,7 @@
 	export let rychlovky;
 	export let zapasy;
 	export let ankety;
-	export let userChosen;
+	let userChosen;
 
 	import { stores } from "@sapper/app";
 	import UAParser from "ua-parser-js";
@@ -97,6 +96,7 @@
 	let min;
 	let width;
 	onMount(() => {
+		getAnketaVote();
 		mql = window.matchMedia("(max-width: 680px)");
 		// mobileView = mql.matches;
 		max = window.matchMedia("(max-width: 1400px)").matches;
@@ -123,6 +123,26 @@
 			}
 		};
 	});
+
+	async function getAnketaVote() {
+		let prezdivkaStorage = localStorage.getItem("prezdivka");
+		const res = await fetch(
+			"https://velkadomu.pythonanywhere.com/main-desktop",
+			{
+				method: "POST",
+				headers: {
+					"content-type": "application/json",
+				},
+				body: JSON.stringify({
+					prezdivka: prezdivkaStorage,
+				}),
+			}
+		);
+		const json = await res.json();
+		console.log(json.user_chosen);
+
+		userChosen = json.user_chosen;
+	}
 
 	let kalendarDayHeight;
 
