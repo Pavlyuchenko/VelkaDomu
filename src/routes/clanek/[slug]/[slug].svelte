@@ -242,7 +242,19 @@
 		<div id="share">
 			<a
 				class="share-btn"
-				href="https://www.facebook.com/sharer/sharer.php?app_id=711492256235520&sdk=joey&u=https://velkadomu.cz/clanek/nyní-je-pravý-čas-porazit-liverpool-hlásí-před-merseyside-derby-carlo-ancelotti/12&display=popup&ref=plugin&src=share_button"
+				href={"https://www.facebook.com/sharer/sharer.php?app_id=711492256235520&sdk=joey&u=https://velkadomu.cz/clanek/" +
+					clanek.titulek
+						.replace(/\s+/g, "-")
+						.replace(".", "")
+						.replace(",", "")
+						.replace('"', "")
+						.replace("'", "")
+						.replace(":", "")
+						.replace("?", "")
+						.toLowerCase() +
+					"/" +
+					clanek.id +
+					"&display=popup&ref=plugin&src=share_button"}
 				onclick="return !window.open(this.href, 'Facebook', 'width=640,height=580')"
 				style="margin-right: 5px;"
 			>

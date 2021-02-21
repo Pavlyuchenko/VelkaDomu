@@ -112,7 +112,10 @@
 			min = window.matchMedia("(min-width: 900px)").matches;
 			mobileView = mql.matches;
 
-			if (!mobileView) {
+			if (
+				!mobileView &&
+				document.getElementsByClassName("kalendar-day")[0]
+			) {
 				width = document.getElementsByClassName("kalendar-day")[0]
 					.offsetWidth;
 
