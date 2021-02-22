@@ -760,6 +760,14 @@
 	:global(h3) {
 		font-size: 30px;
 	}
+	:global(h3) {
+		font-size: 28px;
+		font-weight: 600;
+	}
+	:global(h5) {
+		font-size: 24px;
+		font-weight: 600;
+	}
 	:global(.clanek-body p) {
 		margin-bottom: 30px;
 	}
