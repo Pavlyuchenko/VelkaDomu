@@ -760,7 +760,7 @@
 	:global(h3) {
 		font-size: 30px;
 	}
-	:global(h3) {
+	:global(h4) {
 		font-size: 28px;
 		font-weight: 600;
 	}
