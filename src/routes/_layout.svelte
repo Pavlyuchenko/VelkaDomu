@@ -7,6 +7,9 @@
 
 	import { setContext } from "svelte";
 	import { writable } from "svelte/store";
+	import { stores } from "@sapper/app";
+
+	let { page } = stores();
 
 	let showLogin = false;
 	let showRegister = false;
@@ -271,717 +274,738 @@
 	}
 </script>
 
-<header id="header">
-	<a href="/" rel="prefetch">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="54"
-			height="53"
-			viewBox="0 0 54 53"
-			fill="none"
-			id="header__logo-svg"
-		>
-			<path
-				d="M21.7099 1.84346C24.8643 -0.448336 29.1357 -0.448337 32.2901 1.84346L50.2416 14.886C53.396 17.1778 54.7159 21.2401 53.5111 24.9483L46.6542 46.0517C45.4493 49.7599 41.9937 52.2705 38.0947 52.2705H15.9053C12.0063 52.2705 8.55068 49.7599 7.34582 46.0517L0.48893 24.9483C-0.715938 21.2401 0.603984 17.1778 3.75837 14.886L21.7099 1.84346Z"
-				fill="#FF8A00"
-			/>
-		</svg>
-		<span id="header__logo-text">VelkáDomů.cz</span>
-	</a>
-	<nav id="header__navigation">
-		<div id="domu">
-			<a href="/" rel="prefetch"><span>Domů</span></a>
-		</div>
-		<div>
-			<a href="/kalendar" rel="prefetch"><span>Kalendář</span></a>
-		</div>
-		<div>
-			<a href="/o-nas"><span>O nás</span></a>
-		</div>
-		<div>
-			<a href="/kontakt"><span>Kontakt</span></a>
-		</div>
-		{#if !$isAuthenticated}
-			<div
-				id="login"
-				on:click={() => {
-					showLogin = !showLogin;
-					showRegister = false;
-				}}
-			>
-				<span class="login">Přihlásit se</span>
-			</div>
-			<div
-				id="registrace"
-				on:click={() => {
-					showRegister = !showRegister;
-					showLogin = false;
-				}}
-			>
-				<span class="login">Registrace</span>
-			</div>
-		{:else}
-			<div id="login"><span class="login">{$prezdivka}</span></div>
-			<div id="registrace" on:click={logout}>
-				<span class="login">Odhlásit se</span>
-			</div>
-		{/if}
-	</nav>
-</header>
-<hr />
-{#if showLogin}
-	<div
-		id="loginDiv"
-		in:fly={{ y: -600, duration: 350 }}
-		out:fly={{ y: -200, duration: 200 }}
-	>
-		{#if error != ""}
-			<div id="error">{error}</div>
-		{/if}
-		<h2>Přihlášení</h2>
-		<span
-			id="zavrit-prihlaseni"
-			on:click={() => {
-				showLogin = false;
-			}}>X</span
-		>
-		<p id="create_account">
-			nebo
-			<u
-				on:click={() => {
-					showLogin = false;
-					showRegister = true;
-				}}>vytvoř účet</u
-			>
-		</p>
-
-		<p class="label">Email nebo přezdívka</p>
-		<input type="text" id="email" bind:value={email} />
-		<p class="label">Heslo</p>
-		<div id="login-heslo">
-			<input type="password" id="password" bind:value={password} />
+{#if $page.path != "/ads.txt"}
+	<header id="header">
+		<a href="/" rel="prefetch">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				width="26"
-				height="15"
-				viewBox="0 0 26 15"
+				width="54"
+				height="53"
+				viewBox="0 0 54 53"
 				fill="none"
-				style="cursor: pointer"
-				on:click={() => {
-					if (
-						document.getElementById("password").type == "password"
-					) {
-						document.getElementById("password").type = "text";
-					} else {
-						document.getElementById("password").type = "password";
-					}
-				}}
+				id="header__logo-svg"
 			>
 				<path
-					d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
-					stroke="#FF8A00"
-					stroke-width="2"
+					d="M21.7099 1.84346C24.8643 -0.448336 29.1357 -0.448337 32.2901 1.84346L50.2416 14.886C53.396 17.1778 54.7159 21.2401 53.5111 24.9483L46.6542 46.0517C45.4493 49.7599 41.9937 52.2705 38.0947 52.2705H15.9053C12.0063 52.2705 8.55068 49.7599 7.34582 46.0517L0.48893 24.9483C-0.715938 21.2401 0.603984 17.1778 3.75837 14.886L21.7099 1.84346Z"
+					fill="#FF8A00"
+				/>
+			</svg>
+			<span id="header__logo-text">VelkáDomů.cz</span>
+		</a>
+		<nav id="header__navigation">
+			<div id="domu">
+				<a href="/" rel="prefetch"><span>Domů</span></a>
+			</div>
+			<div>
+				<a href="/kalendar" rel="prefetch"><span>Kalendář</span></a>
+			</div>
+			<div>
+				<a href="/o-nas"><span>O nás</span></a>
+			</div>
+			<div>
+				<a href="/kontakt"><span>Kontakt</span></a>
+			</div>
+			{#if !$isAuthenticated}
+				<div
+					id="login"
+					on:click={() => {
+						showLogin = !showLogin;
+						showRegister = false;
+					}}
+				>
+					<span class="login">Přihlásit se</span>
+				</div>
+				<div
+					id="registrace"
+					on:click={() => {
+						showRegister = !showRegister;
+						showLogin = false;
+					}}
+				>
+					<span class="login">Registrace</span>
+				</div>
+			{:else}
+				<div id="login"><span class="login">{$prezdivka}</span></div>
+				<div id="registrace" on:click={logout}>
+					<span class="login">Odhlásit se</span>
+				</div>
+			{/if}
+		</nav>
+	</header>
+	<hr />
+	{#if showLogin}
+		<div
+			id="loginDiv"
+			in:fly={{ y: -600, duration: 350 }}
+			out:fly={{ y: -200, duration: 200 }}
+		>
+			{#if error != ""}
+				<div id="error">{error}</div>
+			{/if}
+			<h2>Přihlášení</h2>
+			<span
+				id="zavrit-prihlaseni"
+				on:click={() => {
+					showLogin = false;
+				}}>X</span
+			>
+			<p id="create_account">
+				nebo
+				<u
+					on:click={() => {
+						showLogin = false;
+						showRegister = true;
+					}}>vytvoř účet</u
+				>
+			</p>
+
+			<p class="label">Email nebo přezdívka</p>
+			<input type="text" id="email" bind:value={email} />
+			<p class="label">Heslo</p>
+			<div id="login-heslo">
+				<input type="password" id="password" bind:value={password} />
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="26"
+					height="15"
+					viewBox="0 0 26 15"
+					fill="none"
+					style="cursor: pointer"
+					on:click={() => {
+						if (
+							document.getElementById("password").type ==
+							"password"
+						) {
+							document.getElementById("password").type = "text";
+						} else {
+							document.getElementById("password").type =
+								"password";
+						}
+					}}
+				>
+					<path
+						d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<path
+						d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<circle
+						cx="13"
+						cy="7.5"
+						r="3"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+				</svg>
+			</div>
+
+			<u
+				id="login-forgot"
+				on:click={() => {
+					showLogin = false;
+					showForgot = true;
+				}}>Zapomenuté heslo</u
+			>
+			<svg
+				id="login-logo"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={login}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
 				/>
 				<path
-					d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-				<circle
-					cx="13"
-					cy="7.5"
-					r="3"
-					stroke="#FF8A00"
-					stroke-width="2"
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
 				/>
 			</svg>
 		</div>
+	{/if}
+	{#if showRegister}
+		<div
+			id="registerDiv"
+			in:fly={{ y: -600, duration: 350 }}
+			out:fly={{ y: -200, duration: 200 }}
+		>
+			{#if registerError != ""}
+				<div id="error">{registerError}</div>
+			{/if}
+			<h2>Registrace</h2>
+			<span
+				id="zavrit-prihlaseni"
+				on:click={() => {
+					showRegister = false;
+				}}>X</span
+			>
+			<p id="create_account">
+				nebo
+				<u
+					on:click={() => {
+						showLogin = true;
+						showRegister = false;
+					}}>přihlásit se</u
+				>
+			</p>
 
-		<u
-			id="login-forgot"
-			on:click={() => {
-				showLogin = false;
-				showForgot = true;
-			}}>Zapomenuté heslo</u
+			<p class="label">Email</p>
+			<input type="text" id="email" bind:value={emailReg} />
+			<p class="label">Přezdívka</p>
+			<input type="text" id="prezdivka" bind:value={prezdivkaReg} />
+
+			<p class="label">Heslo</p>
+			<div id="register-heslo">
+				<input
+					type="password"
+					id="passwordReg"
+					bind:value={passwordReg}
+				/>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="26"
+					height="15"
+					viewBox="0 0 26 15"
+					fill="none"
+					on:click={() => {
+						if (
+							document.getElementById("passwordReg").type ==
+							"password"
+						) {
+							document.getElementById("passwordReg").type =
+								"text";
+						} else {
+							document.getElementById("passwordReg").type =
+								"password";
+						}
+					}}
+				>
+					<path
+						d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<path
+						d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<circle
+						cx="13"
+						cy="7.5"
+						r="3"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+				</svg>
+			</div>
+
+			<svg
+				id="login-logo"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={() => {
+					register();
+				}}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
+				/>
+				<path
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
+				/>
+			</svg>
+		</div>
+	{/if}
+	{#if showCode}
+		<div
+			id="codeDiv"
+			in:fly={{ y: -600, duration: 350 }}
+			out:fly={{ y: -200, duration: 200 }}
 		>
-		<svg
-			id="login-logo"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={login}
+			<h2>Ověření emailové adresy</h2>
+			<p id="code-info">
+				Poslali jsme ověřovací kód na tvou emailovou adresu, abychom se
+				ujistili, že patří opravdu tobě.
+			</p>
+			<h3>Ověřovací kód</h3>
+			<div id="input-code">
+				<input
+					type="text"
+					id="code"
+					bind:value={fiveDigit}
+					placeholder="- - - - -"
+					maxlength="5"
+				/>
+				<p id="acknowledgement">
+					Může trvat až pět minut, než přijde ověřovací email. Pokud
+					email přesto nepřijde, zkontroluj také spam.
+				</p>
+			</div>
+
+			<svg
+				id="login-logo"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={confirmEmail}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
+				/>
+				<path
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
+				/>
+			</svg>
+		</div>
+	{/if}
+	{#if showForgot}
+		<div
+			id="loginDiv"
+			in:fly={{ y: -600, duration: 350 }}
+			out:fly={{ y: -200, duration: 200 }}
 		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-{#if showRegister}
-	<div
-		id="registerDiv"
-		in:fly={{ y: -600, duration: 350 }}
-		out:fly={{ y: -200, duration: 200 }}
-	>
-		{#if registerError != ""}
-			<div id="error">{registerError}</div>
-		{/if}
-		<h2>Registrace</h2>
-		<span
-			id="zavrit-prihlaseni"
+			{#if error != ""}
+				<div id="error">{error}</div>
+			{/if}
+			{#if success != ""}
+				<div id="success">{success}</div>
+			{/if}
+			<h2>Zapomenuté heslo</h2>
+			<span
+				id="zavrit-prihlaseni"
+				on:click={() => {
+					showForgot = false;
+				}}>X</span
+			>
+
+			<p class="label">Email nebo přezdívka</p>
+			<input type="text" id="email" bind:value={email} />
+			(Pokud Ti mail nepřišel, podívej se také do spamu. A pokud tam objevíš
+			náš mail, musíš jej ze spamu vyjmout, abys mohl kliknout na odkaz.)
+
+			<svg
+				id="login-logo"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={forgotPassword}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
+				/>
+				<path
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
+				/>
+			</svg>
+		</div>
+	{/if}
+
+	{#if showRegister || showLogin || showCode || showForgot}
+		<div
+			id="darkener"
 			on:click={() => {
 				showRegister = false;
-			}}>X</span
-		>
-		<p id="create_account">
-			nebo
-			<u
-				on:click={() => {
-					showLogin = true;
-					showRegister = false;
-				}}>přihlásit se</u
-			>
-		</p>
-
-		<p class="label">Email</p>
-		<input type="text" id="email" bind:value={emailReg} />
-		<p class="label">Přezdívka</p>
-		<input type="text" id="prezdivka" bind:value={prezdivkaReg} />
-
-		<p class="label">Heslo</p>
-		<div id="register-heslo">
-			<input type="password" id="passwordReg" bind:value={passwordReg} />
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="26"
-				height="15"
-				viewBox="0 0 26 15"
-				fill="none"
-				on:click={() => {
-					if (
-						document.getElementById("passwordReg").type ==
-						"password"
-					) {
-						document.getElementById("passwordReg").type = "text";
-					} else {
-						document.getElementById("passwordReg").type =
-							"password";
-					}
-				}}
-			>
-				<path
-					d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-				<path
-					d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-				<circle
-					cx="13"
-					cy="7.5"
-					r="3"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-			</svg>
-		</div>
-
-		<svg
-			id="login-logo"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={() => {
-				register();
+				showLogin = false;
+				showCode = false;
 			}}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-{#if showCode}
-	<div
-		id="codeDiv"
-		in:fly={{ y: -600, duration: 350 }}
-		out:fly={{ y: -200, duration: 200 }}
-	>
-		<h2>Ověření emailové adresy</h2>
-		<p id="code-info">
-			Poslali jsme ověřovací kód na tvou emailovou adresu, abychom se
-			ujistili, že patří opravdu tobě.
-		</p>
-		<h3>Ověřovací kód</h3>
-		<div id="input-code">
-			<input
-				type="text"
-				id="code"
-				bind:value={fiveDigit}
-				placeholder="- - - - -"
-				maxlength="5"
-			/>
-			<p id="acknowledgement">
-				Může trvat až pět minut, než přijde ověřovací email. Pokud email
-				přesto nepřijde, zkontroluj také spam.
-			</p>
-		</div>
+		/>
+	{/if}
 
-		<svg
-			id="login-logo"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={confirmEmail}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-{#if showForgot}
-	<div
-		id="loginDiv"
-		in:fly={{ y: -600, duration: 350 }}
-		out:fly={{ y: -200, duration: 200 }}
-	>
-		{#if error != ""}
-			<div id="error">{error}</div>
-		{/if}
-		{#if success != ""}
-			<div id="success">{success}</div>
-		{/if}
-		<h2>Zapomenuté heslo</h2>
-		<span
-			id="zavrit-prihlaseni"
-			on:click={() => {
-				showForgot = false;
-			}}>X</span
-		>
+	<!-- PHONE NAV -->
 
-		<p class="label">Email nebo přezdívka</p>
-		<input type="text" id="email" bind:value={email} />
-		(Pokud Ti mail nepřišel, podívej se také do spamu. A pokud tam objevíš náš
-		mail, musíš jej ze spamu vyjmout, abys mohl kliknout na odkaz.)
-
-		<svg
-			id="login-logo"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={forgotPassword}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-
-{#if showRegister || showLogin || showCode || showForgot}
-	<div
-		id="darkener"
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="107"
+		height="107"
+		viewBox="0 0 107 107"
+		fill="none"
+		id="nav"
 		on:click={() => {
-			showRegister = false;
-			showLogin = false;
-			showCode = false;
+			showNav = !showNav;
+			showRegistrace = false;
+			showPrihlaseni = false;
 		}}
-	/>
-{/if}
-
-<!-- PHONE NAV -->
-
-<svg
-	xmlns="http://www.w3.org/2000/svg"
-	width="107"
-	height="107"
-	viewBox="0 0 107 107"
-	fill="none"
-	id="nav"
-	on:click={() => {
-		showNav = !showNav;
-		showRegistrace = false;
-		showPrihlaseni = false;
-	}}
-	style={showNav && "left: 50%; transform: translateX(-50%);bottom: 60px;"}
->
-	<path
-		d="M44.6832 6.40576C49.9405 2.5861 57.0595 2.5861 62.3168 6.40576L95.5648 30.5618C100.822 34.3815 103.022 41.152 101.014 47.3323L88.3142 86.4177C86.3061 92.598 80.5468 96.7824 74.0484 96.7824H32.9516C26.4532 96.7824 20.6939 92.598 18.6858 86.4177L5.98618 47.3323C3.97807 41.152 6.17794 34.3815 11.4353 30.5618L44.6832 6.40576Z"
-		fill="#FF8A00"
-	/>
-	<path d="M35 43H71M35 54H71M35 65H71" stroke="white" stroke-width="3" />
-</svg>
-{#if showNav}
-	<div
-		id="mobile-nav"
 		style={showNav &&
-			"left: 50%; transform: translateX(-50%);bottom: 60px; animation: .3s appear;"}
+			"left: 50%; transform: translateX(-50%);bottom: 60px;"}
 	>
-		<div>
-			<a href="/kalendar" rel="prefetch">
-				<span
-					id="nav-text-1"
-					on:click={() => {
-						showNav = false;
-					}}>Kalendář</span
-				>
-			</a>{#if !$isAuthenticated}
-				<span
-					id="nav-text-2"
-					on:click={() => {
-						showRegistrace = true;
-						showNav = false;
-					}}>Registrace</span
-				>
-			{:else}
-				<span id="nav-text-2" on:click={logout}>Odhlásit&nbsp;se</span>
-			{/if}
-			<a href="/kontakt"
-				><span
-					id="nav-text-3"
-					on:click={() => {
-						showNav = false;
-					}}>Kontakt</span
-				></a
-			>
-			<a href="/o-nas" rel="preload"
-				><span
-					id="nav-text-4"
-					on:click={() => {
-						showNav = false;
-					}}>O nás</span
-				></a
-			>
-			{#if !$isAuthenticated}
-				<span
-					id="nav-text-5"
-					on:click={() => {
-						showPrihlaseni = true;
-						showNav = false;
-					}}>Přihlášení</span
-				>
-			{:else}<span id="nav-text-5">{$prezdivka}</span>{/if}
-		</div>
-	</div>
-{/if}
-{#if showPrihlaseni}
-	<div id="login-phone" transition:fly={{ x: 500, duration: 500 }}>
-		{#if error != ""}
-			<div id="error">{error}</div>
-		{/if}
-		<h2>Přihlášení</h2>
-		<span
-			id="zavrit-prihlaseni-phone"
-			on:click={() => {
-				showPrihlaseni = false;
-			}}>X</span
+		<path
+			d="M44.6832 6.40576C49.9405 2.5861 57.0595 2.5861 62.3168 6.40576L95.5648 30.5618C100.822 34.3815 103.022 41.152 101.014 47.3323L88.3142 86.4177C86.3061 92.598 80.5468 96.7824 74.0484 96.7824H32.9516C26.4532 96.7824 20.6939 92.598 18.6858 86.4177L5.98618 47.3323C3.97807 41.152 6.17794 34.3815 11.4353 30.5618L44.6832 6.40576Z"
+			fill="#FF8A00"
+		/>
+		<path d="M35 43H71M35 54H71M35 65H71" stroke="white" stroke-width="3" />
+	</svg>
+	{#if showNav}
+		<div
+			id="mobile-nav"
+			style={showNav &&
+				"left: 50%; transform: translateX(-50%);bottom: 60px; animation: .3s appear;"}
 		>
-		<p id="create_account-phone">
-			nebo
-			<u
+			<div>
+				<a href="/kalendar" rel="prefetch">
+					<span
+						id="nav-text-1"
+						on:click={() => {
+							showNav = false;
+						}}>Kalendář</span
+					>
+				</a>{#if !$isAuthenticated}
+					<span
+						id="nav-text-2"
+						on:click={() => {
+							showRegistrace = true;
+							showNav = false;
+						}}>Registrace</span
+					>
+				{:else}
+					<span id="nav-text-2" on:click={logout}
+						>Odhlásit&nbsp;se</span
+					>
+				{/if}
+				<a href="/kontakt"
+					><span
+						id="nav-text-3"
+						on:click={() => {
+							showNav = false;
+						}}>Kontakt</span
+					></a
+				>
+				<a href="/o-nas" rel="preload"
+					><span
+						id="nav-text-4"
+						on:click={() => {
+							showNav = false;
+						}}>O nás</span
+					></a
+				>
+				{#if !$isAuthenticated}
+					<span
+						id="nav-text-5"
+						on:click={() => {
+							showPrihlaseni = true;
+							showNav = false;
+						}}>Přihlášení</span
+					>
+				{:else}<span id="nav-text-5">{$prezdivka}</span>{/if}
+			</div>
+		</div>
+	{/if}
+	{#if showPrihlaseni}
+		<div id="login-phone" transition:fly={{ x: 500, duration: 500 }}>
+			{#if error != ""}
+				<div id="error">{error}</div>
+			{/if}
+			<h2>Přihlášení</h2>
+			<span
+				id="zavrit-prihlaseni-phone"
 				on:click={() => {
 					showPrihlaseni = false;
-					showRegistrace = true;
-				}}>vytvoř účet</u
+				}}>X</span
 			>
-		</p>
+			<p id="create_account-phone">
+				nebo
+				<u
+					on:click={() => {
+						showPrihlaseni = false;
+						showRegistrace = true;
+					}}>vytvoř účet</u
+				>
+			</p>
 
-		<p class="label">Email</p>
-		<input type="text" id="email" bind:value={email} />
-		<p class="label">Heslo</p>
-		<div id="login-heslo">
-			<input type="password" id="password" bind:value={password} />
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="26"
-				height="15"
-				viewBox="0 0 26 15"
-				fill="none"
-				style="cursor: pointer"
-				on:click={() => {
-					if (
-						document.getElementById("password").type == "password"
-					) {
-						document.getElementById("password").type = "text";
-					} else {
-						document.getElementById("password").type = "password";
-					}
-				}}
-			>
-				<path
-					d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-				<path
-					d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-				<circle
-					cx="13"
-					cy="7.5"
-					r="3"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-			</svg>
-		</div>
+			<p class="label">Email</p>
+			<input type="text" id="email" bind:value={email} />
+			<p class="label">Heslo</p>
+			<div id="login-heslo">
+				<input type="password" id="password" bind:value={password} />
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="26"
+					height="15"
+					viewBox="0 0 26 15"
+					fill="none"
+					style="cursor: pointer"
+					on:click={() => {
+						if (
+							document.getElementById("password").type ==
+							"password"
+						) {
+							document.getElementById("password").type = "text";
+						} else {
+							document.getElementById("password").type =
+								"password";
+						}
+					}}
+				>
+					<path
+						d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<path
+						d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<circle
+						cx="13"
+						cy="7.5"
+						r="3"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+				</svg>
+			</div>
 
-		<u
-			id="login-forgot-phone"
-			on:click={() => {
-				showZapomenuteHeslo = true;
-				showPrihlaseni = false;
-			}}>Zapomenuté heslo</u
-		>
-		<svg
-			id="login-logo-phone"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={() => {
-				login();
-			}}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-
-{#if showRegistrace}
-	<div id="registrace-phone" transition:fly={{ x: 500, duration: 500 }}>
-		{#if registerError != ""}
-			<div id="error">{registerError}</div>
-		{/if}
-		<h2>Registrace</h2>
-		<span
-			id="zavrit-prihlaseni-phone"
-			on:click={() => {
-				showRegistrace = false;
-			}}>X</span
-		>
-		<p id="create_account">
-			nebo
 			<u
+				id="login-forgot-phone"
 				on:click={() => {
-					showPrihlaseni = true;
-					showRegistrace = false;
-				}}>přihlásit se</u
+					showZapomenuteHeslo = true;
+					showPrihlaseni = false;
+				}}>Zapomenuté heslo</u
 			>
-		</p>
-
-		<p class="label">Email</p>
-		<input type="text" id="email" bind:value={emailReg} />
-		<p class="label">Přezdívka</p>
-		<input type="text" id="prezdivka" bind:value={prezdivkaReg} />
-
-		<p class="label">Heslo</p>
-		<div id="register-heslo">
-			<input type="password" id="passwordReg" bind:value={passwordReg} />
 			<svg
+				id="login-logo-phone"
 				xmlns="http://www.w3.org/2000/svg"
-				width="26"
-				height="15"
-				viewBox="0 0 26 15"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
 				fill="none"
 				on:click={() => {
-					if (
-						document.getElementById("passwordReg").type ==
-						"password"
-					) {
-						document.getElementById("passwordReg").type = "text";
-					} else {
-						document.getElementById("passwordReg").type =
-							"password";
-					}
+					login();
 				}}
 			>
 				<path
-					d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
-					stroke="#FF8A00"
-					stroke-width="2"
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
 				/>
 				<path
-					d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
-					stroke="#FF8A00"
-					stroke-width="2"
-				/>
-				<circle
-					cx="13"
-					cy="7.5"
-					r="3"
-					stroke="#FF8A00"
-					stroke-width="2"
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
 				/>
 			</svg>
 		</div>
+	{/if}
 
-		<svg
-			id="login-logo-phone"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={() => {
-				registerMobile();
+	{#if showRegistrace}
+		<div id="registrace-phone" transition:fly={{ x: 500, duration: 500 }}>
+			{#if registerError != ""}
+				<div id="error">{registerError}</div>
+			{/if}
+			<h2>Registrace</h2>
+			<span
+				id="zavrit-prihlaseni-phone"
+				on:click={() => {
+					showRegistrace = false;
+				}}>X</span
+			>
+			<p id="create_account">
+				nebo
+				<u
+					on:click={() => {
+						showPrihlaseni = true;
+						showRegistrace = false;
+					}}>přihlásit se</u
+				>
+			</p>
+
+			<p class="label">Email</p>
+			<input type="text" id="email" bind:value={emailReg} />
+			<p class="label">Přezdívka</p>
+			<input type="text" id="prezdivka" bind:value={prezdivkaReg} />
+
+			<p class="label">Heslo</p>
+			<div id="register-heslo">
+				<input
+					type="password"
+					id="passwordReg"
+					bind:value={passwordReg}
+				/>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="26"
+					height="15"
+					viewBox="0 0 26 15"
+					fill="none"
+					on:click={() => {
+						if (
+							document.getElementById("passwordReg").type ==
+							"password"
+						) {
+							document.getElementById("passwordReg").type =
+								"text";
+						} else {
+							document.getElementById("passwordReg").type =
+								"password";
+						}
+					}}
+				>
+					<path
+						d="M1 7C7.91761 16.6462 18.0038 16.0151 25 7"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<path
+						d="M25 8C18.0824 -1.6462 7.99622 -1.01513 1 8"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+					<circle
+						cx="13"
+						cy="7.5"
+						r="3"
+						stroke="#FF8A00"
+						stroke-width="2"
+					/>
+				</svg>
+			</div>
+
+			<svg
+				id="login-logo-phone"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={() => {
+					registerMobile();
+				}}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
+				/>
+				<path
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
+				/>
+			</svg>
+		</div>
+	{/if}
+
+	{#if showKod}
+		<div id="login-phone" transition:fly={{ x: 500, duration: 500 }}>
+			<h2>Jsi úspěšně přihlášen</h2>
+			<span
+				id="zavrit-prihlaseni-phone"
+				on:click={() => {
+					showKod = false;
+				}}>X</span
+			>
+
+			<p id="code-info">
+				Poslali jsme ověřovací kód na tvou emailovou adresu, abychom se
+				ujistili, že patří opravdu tobě. Co nejdříve prosím klikni na
+				odkaz uvedený v mailu.
+			</p>
+
+			<svg
+				id="login-logo-phone"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={() => {
+					showKod = false;
+				}}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
+				/>
+				<path
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
+				/>
+			</svg>
+		</div>
+	{/if}
+
+	{#if showZapomenuteHeslo}
+		<div id="login-phone" transition:fly={{ x: 500, duration: 500 }}>
+			<h2>Zapomenuté heslo</h2>
+			<span
+				id="zavrit-prihlaseni-phone"
+				on:click={() => {
+					showZapomenuteHeslo = false;
+				}}>X</span
+			>
+			<p class="label">Email</p>
+			<input type="text" id="email" bind:value={email} />
+			(Pokud Ti mail nepřišel, podívej se také do spamu. A pokud tam objevíš
+			náš mail, musíš jej ze spamu vyjmout, abys mohl kliknout na odkaz.)
+			{#if showSendEmail}
+				Poslali jsme mail na tvou emailovou adresu.
+			{/if}
+
+			<svg
+				id="login-logo-phone"
+				xmlns="http://www.w3.org/2000/svg"
+				width="82"
+				height="82"
+				viewBox="0 0 82 82"
+				fill="none"
+				on:click={() => {
+					showSendEmail = true;
+					forgotPassword();
+				}}
+			>
+				<path
+					d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
+					fill="#FF8A00"
+				/>
+				<path
+					d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
+					fill="white"
+				/>
+			</svg>
+		</div>
+	{/if}
+
+	{#if showNav || showPrihlaseni || showRegistrace || showKod || showZapomenuteHeslo}
+		<div
+			id="nav-bg"
+			on:scroll={() => {
+				showNav = false;
+				showPrihlaseni = false;
+				showRegistrace = false;
 			}}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-
-{#if showKod}
-	<div id="login-phone" transition:fly={{ x: 500, duration: 500 }}>
-		<h2>Jsi úspěšně přihlášen</h2>
-		<span
-			id="zavrit-prihlaseni-phone"
 			on:click={() => {
+				showNav = false;
+				showPrihlaseni = false;
+				showRegistrace = false;
 				showKod = false;
-			}}>X</span
-		>
-
-		<p id="code-info">
-			Poslali jsme ověřovací kód na tvou emailovou adresu, abychom se
-			ujistili, že patří opravdu tobě. Co nejdříve prosím klikni na odkaz
-			uvedený v mailu.
-		</p>
-
-		<svg
-			id="login-logo-phone"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={() => {
-				showKod = false;
 			}}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-
-{#if showZapomenuteHeslo}
-	<div id="login-phone" transition:fly={{ x: 500, duration: 500 }}>
-		<h2>Zapomenuté heslo</h2>
-		<span
-			id="zavrit-prihlaseni-phone"
-			on:click={() => {
-				showZapomenuteHeslo = false;
-			}}>X</span
-		>
-		<p class="label">Email</p>
-		<input type="text" id="email" bind:value={email} />
-		(Pokud Ti mail nepřišel, podívej se také do spamu. A pokud tam objevíš náš
-		mail, musíš jej ze spamu vyjmout, abys mohl kliknout na odkaz.)
-		{#if showSendEmail}
-			Poslali jsme mail na tvou emailovou adresu.
-		{/if}
-
-		<svg
-			id="login-logo-phone"
-			xmlns="http://www.w3.org/2000/svg"
-			width="82"
-			height="82"
-			viewBox="0 0 82 82"
-			fill="none"
-			on:click={() => {
-				showSendEmail = true;
-				forgotPassword();
-			}}
-		>
-			<path
-				d="M32.1832 6.40577C37.4405 2.58611 44.5595 2.5861 49.8168 6.40576L71.1765 21.9245C76.4338 25.7442 78.6337 32.5147 76.6256 38.695L68.4669 63.8049C66.4588 69.9853 60.6995 74.1697 54.2011 74.1697H27.7989C21.3006 74.1697 15.5412 69.9853 13.5331 63.8049L5.3744 38.6951C3.36628 32.5147 5.56615 25.7442 10.8235 21.9245L32.1832 6.40577Z"
-				fill="#FF8A00"
-			/>
-			<path
-				d="M58.4142 42.4142C59.1953 41.6332 59.1953 40.3668 58.4142 39.5858L45.6863 26.8579C44.9052 26.0768 43.6389 26.0768 42.8579 26.8579C42.0768 27.6389 42.0768 28.9052 42.8579 29.6863L54.1716 41L42.8579 52.3137C42.0768 53.0948 42.0768 54.3611 42.8579 55.1421C43.6389 55.9232 44.9052 55.9232 45.6863 55.1421L58.4142 42.4142ZM24 43H57V39H24V43Z"
-				fill="white"
-			/>
-		</svg>
-	</div>
-{/if}
-
-{#if showNav || showPrihlaseni || showRegistrace || showKod || showZapomenuteHeslo}
-	<div
-		id="nav-bg"
-		on:scroll={() => {
-			showNav = false;
-			showPrihlaseni = false;
-			showRegistrace = false;
-		}}
-		on:click={() => {
-			showNav = false;
-			showPrihlaseni = false;
-			showRegistrace = false;
-			showKod = false;
-		}}
-	/>
+		/>
+	{/if}
 {/if}
 
 <main>
 	<slot />
 </main>
-<Footer />
+{#if $page.path != "/ads.txt"}
+	<Footer />
+{/if}
 
 <style>
 	input:-webkit-autofill,
