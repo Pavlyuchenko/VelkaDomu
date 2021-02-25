@@ -280,6 +280,20 @@
 	{#if clanek.zdrojObrazku}
 		<p id="zdroj-hlavniho-obrazku">{clanek.zdrojObrazku}</p>
 	{/if}
+	<script
+		async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<ins
+		class="adsbygoogle"
+		style="display:block; text-align:center;"
+		data-ad-layout="in-article"
+		data-ad-format="fluid"
+		data-ad-client="ca-pub-4089328309096190"
+		data-ad-slot="6833214460"
+	/>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
 	<div class="clanek-body">
 		{@html clanek.body}
 	</div>
