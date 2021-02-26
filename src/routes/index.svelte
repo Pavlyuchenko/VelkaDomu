@@ -177,7 +177,10 @@
 <svelte:head>
 	<title>VelkáDomů.cz - Sjednocujeme fotbalové fanoušky</title>
 
-	<meta name="description" content="" />
+	<meta
+		name="description"
+		content="Fotbalové zpravodajství budující komunitu pro všechny fanoušky!"
+	/>
 </svelte:head>
 
 {#if !mobileView}
