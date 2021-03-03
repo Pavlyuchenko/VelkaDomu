@@ -251,6 +251,7 @@
 						.replace("'", "")
 						.replace(":", "")
 						.replace("?", "")
+						.replace("/", "")
 						.toLowerCase() +
 					"/" +
 					clanek.id +
@@ -478,6 +479,7 @@
 							.replace("'", "")
 							.replace(":", "")
 							.replace("?", "")
+							.replace("/", "")
 							.toLowerCase() +
 						"/" +
 						dalsiClanek.id}
