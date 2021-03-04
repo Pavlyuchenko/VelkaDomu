@@ -196,6 +196,11 @@
 			datum={hlavniClanek.datum}
 		/>
 		<SekundarniClanky clanky={sekundarniClanky} />
+		<p id="flashsport">
+			<a href="https://flashsport.cz" target="_blank">
+				Více novinek ze světa fotbalu
+			</a>
+		</p>
 		<hr />
 		<section>
 			<div id="widget-nadpisy">
@@ -449,6 +454,12 @@
 		transition: 0.15s;
 		cursor: pointer;
 	}
+	#vice-z-fotbalu {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		cursor: pointer;
+	}
 	#widget-kalendar-nadpis {
 		margin-right: calc(25% - 8px);
 		transform: translateX(50%);
@@ -656,5 +667,19 @@
 
 	section {
 		margin-top: 30px;
+	}
+
+	#flashsport {
+		margin-top: 40px;
+		margin-bottom: -30px;
+		text-align: center;
+		text-decoration: underline;
+	}
+	#flashsport a {
+		transition: 0.15s;
+		font-size: 18px;
+	}
+	#flashsport a:hover {
+		color: #ff8a00;
 	}
 </style>
