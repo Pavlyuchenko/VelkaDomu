@@ -4,6 +4,7 @@
 			"https://velkadomu.pythonanywhere.com/clanek/" + params.slug
 		);
 		const json = await res.json();
+
 		let clanek = json.clanek;
 
 		let komentare = json.komentare;
@@ -32,6 +33,7 @@
 		let hodnotyAnkety = clanek.hodnotyAnkety;
 
 		let id = params.slug;
+		let autor = clanek.autor;
 
 		return {
 			clanek,
@@ -43,6 +45,7 @@
 			hodnotyAnkety,
 			id,
 			jsonldScript,
+			autor,
 		};
 	}
 </script>
@@ -98,6 +101,7 @@
 	export let hodnotyAnkety;
 	export let id;
 	export let jsonldScript;
+	export let autor;
 
 	let userChosen;
 	let showAnketaResults;
@@ -302,7 +306,7 @@
 	{#if clanek.logo != "VelkaDomu"}
 		<div class="separator">Konec náhledu článku</div>
 		<p id="zbytek-clanku">
-			Zbytek článku si můžeš přečíst na forcabarca.cz
+			Zbytek článku si můžeš přečíst na {autor}
 		</p>
 		<button on:click={redirect} id="link-clanek"
 			>Přečíst zbytek článku</button
