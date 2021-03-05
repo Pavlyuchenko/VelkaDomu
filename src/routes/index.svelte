@@ -197,7 +197,7 @@
 		/>
 		<SekundarniClanky clanky={sekundarniClanky} />
 		<p id="flashsport">
-			<a href="https://flashsport.cz" target="_blank">
+			<a href="https://flashsport.cz/sport/soccer" target="_blank">
 				Více novinek ze světa fotbalu
 			</a>
 		</p>
