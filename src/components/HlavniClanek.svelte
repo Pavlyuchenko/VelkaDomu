@@ -25,6 +25,7 @@
 			.replace("'", "")
 			.replace(":", "")
 			.replace("?", "")
+			.replace("?", "")
 			.replace("/", "")
 			.toLowerCase() +
 		"/" +

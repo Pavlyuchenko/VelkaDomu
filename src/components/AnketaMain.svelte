@@ -70,6 +70,7 @@
 						.replace(":", "")
 						.replace("?", "")
 						.replace("/", "")
+						.replace("?", "")
 						.toLowerCase() +
 					"/" +
 					clanekId}><h4>{nazevAnkety}</h4></a
