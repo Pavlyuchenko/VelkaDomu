@@ -181,6 +181,10 @@
 		name="description"
 		content="Fotbalové zpravodajství budující komunitu pro všechny fanoušky!"
 	/>
+	<meta
+		property="og:image"
+		content="https://ik.imagekit.io/velkadomu/Redakce-Velk_Dom_.cz-srde_n_-zdrav_-v_echny-fotbalov_-fandy__0CckIGUNb"
+	/>
 </svelte:head>
 
 {#if !mobileView}
