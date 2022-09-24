@@ -1,6 +1,7 @@
 # [VelkáDomů.cz](https://velkadomu-sapper.vercel.app/)
 
 ![Main image](https://ik.imagekit.io/velkadomu/velkadomu2_iJO5yyCvzT.png?ik-sdk-version=javascript-1.4.3&updatedAt=1649504383080)
+### [**Article**](https://michal-pavlicek.tech/project/velka-domu) about this project on my portfolio.
 
 A football news website created in cooperation with my friend. It features a **custom made block-based text editor** for the authors, is fully **responsive**, **fast** and **SEO** optimized.
 
